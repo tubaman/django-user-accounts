@@ -10,6 +10,7 @@ except ImportError:  # python 2
 
 from django.core.exceptions import SuspiciousOperation
 from django.http import HttpResponseRedirect, QueryDict
+from django.utils.encoding import force_str
 
 from django.contrib.auth import get_user_model
 
@@ -95,7 +96,7 @@ def handle_redirect_to_login(request, **kwargs):
             raise
         if "/" not in login_url and "." not in login_url:
             raise
-    url_bits = list(urlparse(login_url))
+    url_bits = list(urlparse(force_str(login_url)))
     if redirect_field_name:
         querystring = QueryDict(url_bits[4], mutable=True)
         querystring[redirect_field_name] = next_url
